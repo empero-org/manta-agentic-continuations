@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manta Agentic Continuations · Empero</title>
+<meta name="description" content="One real coding-agent session, cut at 5 points from 0.9M to 7.4M tokens, with Manta writing the next turn each time.">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Empero"><meta property="og:title" content="One agent session, continued at 7.4M tokens"><meta property="og:description" content="One real coding-agent session, cut at 5 points from 0.9M to 7.4M tokens, with Manta writing the next turn each time."><meta name="twitter:title" content="One agent session, continued at 7.4M tokens"><meta name="twitter:description" content="One real coding-agent session, cut at 5 points from 0.9M to 7.4M tokens, with Manta writing the next turn each time."><link rel="canonical" href="https://empero-org.github.io/manta-agentic-continuations/"><meta property="og:url" content="https://empero-org.github.io/manta-agentic-continuations/"><meta property="og:image" content="https://empero-org.github.io/manta-agentic-continuations/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://empero-org.github.io/manta-agentic-continuations/og.png">
+<meta name="theme-color" content="#0e0b13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230e0b13'/%3E%3Crect x='3.75' y='3.75' width='24.5' height='24.5' fill='none' stroke='%23eeeaf4' stroke-width='1.5'/%3E%3Cpath d='M10 11h12M10 16h9M10 21h12' stroke='%23eeeaf4' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..400&display=swap">
+<style>
+:root{--paper:#f4f1eb;--paper-2:#ece7de;--card:#fbfaf7;--ink:#16131b;--ink-2:#57525e;--ink-3:#6f6976;
+--line:rgba(22,19,27,.12);--line-2:rgba(22,19,27,.24);--night:#0e0b13;--night-2:#16121d;--night-3:#1f1a28;
+--on-night:#eeeaf4;--on-night-2:rgba(238,234,244,.68);--on-night-3:rgba(238,234,244,.5);--night-line:rgba(238,234,244,.12);
+--violet:#5b36d6;--violet-2:#4a28be;--violet-bright:#b48cff;--violet-deep:#2c2163;--accent:var(--violet);--think-bg:#efeaf9;--think-ink:#3f3460;
+--serif:"Newsreader","Iowan Old Style",Georgia,serif;--sans:"Hanken Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+--mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;--max:960px;--gutter:clamp(16px,4vw,48px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#0e0b13;--paper-2:#1f1a28;--card:#16121d;--ink:#eeeaf4;--ink-2:rgba(238,234,244,.72);
+--ink-3:rgba(238,234,244,.55);--line:rgba(238,234,244,.12);--line-2:rgba(238,234,244,.22);--accent:var(--violet-bright);--think-bg:#211a33;--think-ink:#d9ccff}}
+:root[data-theme=dark]{--paper:#0e0b13;--paper-2:#1f1a28;--card:#16121d;--ink:#eeeaf4;--ink-2:rgba(238,234,244,.72);
+--ink-3:rgba(238,234,244,.55);--line:rgba(238,234,244,.12);--line-2:rgba(238,234,244,.22);--accent:var(--violet-bright);--think-bg:#211a33;--think-ink:#d9ccff}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--sans)}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.bar{background:var(--night);color:var(--on-night);border-bottom:1px solid var(--night-line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:500;font-size:17px;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px}
+.bar nav a{color:var(--on-night-2);text-decoration:none;font-size:14.5px;margin-left:22px}
+.bar nav a:hover{color:var(--on-night)}
+.hero{background:var(--night);color:var(--on-night);padding:clamp(56px,9vw,112px) 0 clamp(48px,7vw,88px)}
+.eyebrow{display:flex;align-items:center;gap:8px;color:var(--on-night-2);font-size:13px;margin:0 0 22px}
+.eyebrow::before{content:"";width:7px;height:7px;background:var(--violet-bright)}
+.hero h1{font-family:var(--serif);font-weight:330;font-size:clamp(38px,6.2vw,68px);line-height:1.04;letter-spacing:-.02em;margin:0 0 24px;max-width:16ch}
+.hero p{color:var(--on-night-2);font-size:17px;max-width:620px;margin:0 0 12px}
+.ladder{display:flex;flex-wrap:wrap;gap:10px;margin:34px 0 0;padding:0;list-style:none}
+.ladder a{display:block;text-decoration:none;border:1px solid var(--night-line);color:var(--on-night);padding:9px 14px;border-radius:3px;font-size:14px}
+.ladder a b{display:block;font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.1}
+.ladder a span{color:var(--on-night-3);font-size:12.5px}
+.ladder a:hover{border-color:var(--violet-bright)}
+main{padding:clamp(40px,6vw,72px) 0}
+section.run{background:var(--card);border:1px solid var(--line);border-radius:3px;margin:0 0 36px}
+.runhead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;padding:24px 24px 18px;border-bottom:1px solid var(--line)}
+.runhead h2{font-family:var(--serif);font-weight:350;font-size:clamp(28px,4vw,38px);line-height:1.05;letter-spacing:-.015em;margin:0 0 6px}
+.runhead .sub{color:var(--ink-3);font-size:14px}
+.files{display:flex;gap:8px}
+.files a{font-size:13px;text-decoration:none;border:1px solid var(--line-2);border-radius:3px;padding:5px 10px;color:var(--ink-2)}
+.files a:hover{border-color:var(--accent);color:var(--accent)}
+details.fold{border-bottom:1px solid var(--line)}
+details.fold.orig{border-top:1px solid var(--line);border-bottom:0}
+details.fold summary{cursor:pointer;padding:14px 24px;color:var(--ink-2);font-size:14.5px;list-style:none;display:flex;gap:8px}
+details.fold summary::-webkit-details-marker{display:none}
+details.fold summary::before{content:"+";font-family:var(--mono);color:var(--accent);width:12px}
+details.fold[open] summary::before{content:"−"}
+.foldbody{padding:2px 24px 10px}
+.msg{margin:0 0 16px}
+.role{font-size:12px;color:var(--ink-3);margin:0 0 6px;font-weight:500;letter-spacing:.02em}
+pre{margin:0;white-space:pre-wrap;word-break:break-word;font:12.5px/1.6 var(--mono)}
+pre.out{background:var(--paper-2);border-radius:3px;padding:12px 14px;max-height:360px;overflow:auto;color:var(--ink-2)}
+.text{white-space:pre-wrap;word-break:break-word;margin:0 0 12px;font-size:16px}
+.text code{font:13.5px var(--mono);background:var(--paper-2);border-radius:3px;padding:1px 5px}
+.think{white-space:pre-wrap;word-break:break-word;font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.55;color:var(--think-ink);background:var(--think-bg);border-left:2px solid var(--accent);padding:12px 16px;margin:0 0 14px}
+.think .label{font-family:var(--sans);font-style:normal;font-size:12px;font-weight:500;letter-spacing:.02em;color:var(--accent);margin-bottom:4px}
+.call{background:var(--night-2);color:var(--on-night);border-radius:3px;overflow:hidden;margin:0 0 12px}
+.callhead{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;padding:8px 14px;border-bottom:1px solid var(--night-line);font-size:13px}
+.callhead .fn{font-family:var(--mono);font-weight:500;color:var(--violet-bright)}
+.callhead .desc{color:var(--on-night-3)}
+.call pre{padding:12px 14px}
+.takeover{display:flex;align-items:center;gap:12px;padding:20px 24px 0;color:var(--accent);font-size:13px;font-weight:600;letter-spacing:.02em}
+.takeover::after{content:"";flex:1;height:1px;background:var(--accent);opacity:.5}
+.cont{padding:16px 24px 8px}
+.cont .msg>.role{display:none}
+footer{background:var(--night);color:var(--on-night-3);font-size:13.5px;padding:36px 0 44px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+footer .brand{color:var(--on-night)}
+footer a{color:var(--on-night-2)}
+@media (max-width:600px){.bar nav a:not(:last-child){display:none}.runhead,.foldbody,.cont{padding-left:16px;padding-right:16px}
+details.fold summary,.takeover{padding-left:16px;padding-right:16px}}
+</style></head>
+<body>
+<div class="bar"><div class="wrap"><a class="brand" href="https://empero.org"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="0.75" y="0.75" width="30.5" height="30.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h15M8 16h11M8 23h15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/></svg>empero</a>
+<nav><a href="https://empero.org/research">Research</a><a href="https://github.com/empero-org/manta-agentic-continuations">GitHub</a><a href="https://empero.org">empero.org</a></nav></div></div>
+<header class="hero"><div class="wrap">
+<div class="eyebrow">Manta · Long context</div>
+<h1>One agent session, continued at 7.4&nbsp;million tokens.</h1>
+<p>We cut a real coding-agent session at 5 points, from 0.9M to 7.4M tokens, and kept everything before each cut in context. Each time Manta writes the next turn on its own: its reasoning and its message, up to the point where it runs its next tool.</p>
+<p>One sample per cut, unedited. IPs, keys, IDs, paths and internal names read [REDACTED]; nothing else is changed.</p>
+<ul class="ladder"><li><a href="#session1-0.9M"><b>0.9M</b><span>3,337 messages</span></a></li><li><a href="#session1-1.5M"><b>1.5M</b><span>5,550 messages</span></a></li><li><a href="#session1-3.5M"><b>3.5M</b><span>12,919 messages</span></a></li><li><a href="#session1-5.0M"><b>5.0M</b><span>19,623 messages</span></a></li><li><a href="#session1-7.4M"><b>7.4M</b><span>31,450 messages</span></a></li></ul>
+</div></header>
+<main><div class="wrap">
+<section class="run" id="session1-0.9M">
+  <div class="runhead"><div><h2>0.9M tokens of context</h2>
+  <div class="sub">899,848 tokens · 3,337 earlier messages · cut right after a tool result</div></div><div class="files"><a href="continuations/session1-0.9M.json">JSON</a><a href="https://github.com/empero-org/manta-agentic-continuations/blob/main/continuations/session1-0.9M.md">Markdown</a></div></div>
+  <details class="fold"><summary>The last 4 turns before the cut</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>The retrain job for identity3 should have completed by now given it was only about 38 steps, so I'm checking whether the sft_final output exists and running the re-test manually to diagnose what's happening.</div></div><div class="msg assistant"><div class="role">Agent</div><div class="text">Re-test output's empty — retrain or re-test still going. Let me check directly:</div></div><div class="msg assistant"><div class="role">Agent</div><div class="call"><div class="callhead"><span class="fn">Bash</span><span class="desc">Check identity3 retrain done + re-test running state</span></div><pre>ssh -p [REDACTED] -i [REDACTED]/.ssh/id_ed25519 root@[REDACTED] 'cd /root/[REDACTED] &amp;&amp; echo "identity3 final: $([ -f train/runs/[REDACTED]/sft_final.pt ] &amp;&amp; echo YES || echo no)"; echo "train tail:"; grep -E "saved|val_loss" identity3_train.log 2&gt;/dev/null | tail -2; echo "python procs: $(pgrep -fc "[p]ython")"; echo "gpu: $(nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader)"' 2&gt;/dev/null</pre></div></div><div class="msg tool"><div class="role">Tool result</div><pre class="out">identity3 final: YES
+train tail:
+VAL {'step': 38, 'epoch': 2.959, 'val_loss': 1.3226, 'best': 1.3226}
+saved /root/[REDACTED]/train/runs/[REDACTED]/sft_final.pt (best val 1.3226)
+python procs: 16
+gpu: 10 %, 908 MiB</pre></div></div></details>
+  <div class="takeover">Manta takes over</div>
+  <div class="cont"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>The identity3 training completed with a better validation loss than identity2, but the GPU is idle which means the re-test either finished or crashed. I'm trying to read the final file to check the status.</div><div class="text"><code>identity3</code> is <strong>done</strong> (val 1.32) — GPU's idle, so the re-test should be finished too. Reading it:</div></div></div>
+  <details class="fold orig"><summary>What the original session did next, for comparison</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>The identity3 retrain completed successfully with a validation loss of 1.3226, which is a slight improvement over identity2. The re-test is now running with 16 processes handling the evaluation and tokenizer workers, using about 10% GPU and 908MiB of memory. I'm waiting for the watcher to report back on the results.</div><div class="text"><code>identity3</code> finished — and a good sign: <strong>val 1.3226</strong>, better than identity2's 1.34 and near the pre-persona sft_best (1.295), so the gentler pass degraded general ability much less. The re-test (task-following + identity) is running on the GPU right now (that's the 16 procs). I'll have the verdict — does she write hello-world cleanly *and* still know she's [REDACTED] — in a minute or two when the watcher fires. Holding for it.</div></div></div></details>
+</section>
+<section class="run" id="session1-1.5M">
+  <div class="runhead"><div><h2>1.5M tokens of context</h2>
+  <div class="sub">1,499,692 tokens · 5,550 earlier messages · cut right after a tool result</div></div><div class="files"><a href="continuations/session1-1.5M.json">JSON</a><a href="https://github.com/empero-org/manta-agentic-continuations/blob/main/continuations/session1-1.5M.md">Markdown</a></div></div>
+  <details class="fold"><summary>The last 4 turns before the cut</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>I need to locate the [REDACTED] executable at its full path since ~/.local/bin isn't in my shell's PATH, so I'll either use the complete path directly or add it to PATH and verify the installation works.</div></div><div class="msg assistant"><div class="role">Agent</div><div class="text">Found it at <code>~/.local/bin/[REDACTED]</code> (standalone). Let me use the full path and check the exec flags:</div></div><div class="msg assistant"><div class="role">Agent</div><div class="call"><div class="callhead"><span class="fn">Bash</span><span class="desc">Run [REDACTED] via full path, check exec help</span></div><pre>export PATH="$HOME/.local/bin:$PATH"; [REDACTED] --version 2&gt;&amp;1 | head -1; echo "=== exec help ==="; [REDACTED] exec --help 2&gt;&amp;1 | sed -n '1,50p'</pre></div></div><div class="msg tool"><div class="role">Tool result</div><pre class="out">[REDACTED] 0.145.0
+=== exec help ===
+Run [REDACTED] non-interactively
+
+Usage: [REDACTED] exec [OPTIONS] [PROMPT]
+       [REDACTED] exec [OPTIONS] &lt;COMMAND&gt; [ARGS]
+
+Commands:
+  resume  Resume a previous session by id or pick the most recent with --last
+  review  Run a code review against the current repository
+  help    Print this message or the help of the given subcommand(s)
+
+Arguments:
+  [PROMPT]
+          Initial instructions for the agent. If not provided as an argument (or if `-` is used),
+          instructions are read from stdin. If stdin is piped and a prompt is also provided, stdin
+          is appended as a `&lt;stdin&gt;` block
+
+Options:
+  -c, --config &lt;key=value&gt;
+          Override a configuration value that would otherwise be loaded from `~/.[REDACTED]/config.toml`.
+          Use a dotted path (`foo.bar.baz`) to override nested values. The `value` portion is parsed
+          as TOML. If it fails to parse as TOML, the raw string is used as a literal.
+          
+          Examples: - `-c model="[REDACTED]"` - `-c 'sandbox_permissions=["di[REDACTED]"]'` - `-c
+          shell_environment_policy.inherit=all`
+
+      --enable &lt;FEATURE&gt;
+          Enable a feature (repeatable). Equivalent to `-c features.&lt;name&gt;=true`
+
+      --disable &lt;FEATURE&gt;
+          Disable a feature (repeatable). Equivalent to `-c features.&lt;name&gt;=false`
+
+      --strict-config
+          Error out when config.toml contains fields that are not recognized by this version of
+          [REDACTED]
+
+  -i, --image &lt;FILE&gt;...
+          Optional image(s) to attach to the initial prompt
+
+  -m, --model &lt;MODEL&gt;
+          Model the agent should use
+
+      --oss
+          Use open-source provider
+
+      --local-provider &lt;OSS_PROVIDER&gt;
+          Specify which local provider to use (lmstudio or ollama). If not specified with --oss,
+          will use config default or show selection
+
+  -p, --profile &lt;CONFIG_PROFILE_V2&gt;
+          Layer $[REDACTED]/&lt;name&gt;.config.toml on top of the base user config</pre></div></div></details>
+  <div class="takeover">Manta takes over</div>
+  <div class="cont"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>I need to check whether `--model` and `--model-reasoning-effort` flags exist in the full help output, since that's where they're typically configured. Let me pull up the rest of the help text to see what's available.</div><div class="text">Let me see the remaining flags (model-reasoning-effort and sandbox):</div></div></div>
+  <details class="fold orig"><summary>What the original session did next, for comparison</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>I'm looking at the [REDACTED] version 0.145.0 and its exec command options—specifically the model parameter, reasoning effort configuration, and how to pass prompts either as arguments or through stdin. I need to check the help documentation for sandbox and approval flags to understand whether I can write files directly or if I need to capture the output through stdout instead.
+
+The working directory is `[REDACTED]/Desktop/[REDACTED]/[REDACTED]`, which isn't a git repository, so [REDACTED] exec will likely require the `--skip-git-repo-check` flag to run without complaining about the missing git repo context. Let me review the full help output to see all available flags.</div><div class="call"><div class="callhead"><span class="fn">Bash</span><span class="desc">See remaining exec flags (sandbox, cd, git check, output)</span></div><pre>export PATH="$HOME/.local/bin:$PATH"; [REDACTED] exec --help 2&gt;&amp;1 | sed -n '50,110p'</pre></div></div></div></details>
+</section>
+<section class="run" id="session1-3.5M">
+  <div class="runhead"><div><h2>3.5M tokens of context</h2>
+  <div class="sub">3,499,544 tokens · 12,919 earlier messages · cut right after a tool result</div></div><div class="files"><a href="continuations/session1-3.5M.json">JSON</a><a href="https://github.com/empero-org/manta-agentic-continuations/blob/main/continuations/session1-3.5M.md">Markdown</a></div></div>
+  <details class="fold"><summary>The last 4 turns before the cut</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="call"><div class="callhead"><span class="fn">Bash</span><span class="desc">Check data/model progress</span></div><pre>cat [REDACTED]/tasks/bcbadj7uv.output 2&gt;/dev/null | grep -vE "Welcome|Have fun|AI agents|READ /etc"</pre></div></div><div class="msg tool"><div class="role">Tool result</div><pre class="out">(Bash completed with no output)</pre></div><div class="msg assistant"><div class="role">Agent</div><div class="call"><div class="callhead"><span class="fn">Bash</span><span class="desc">Check data and model download status</span></div><pre>ssh -p [REDACTED] -o ConnectTimeout=60 root@[REDACTED] 'echo "=== getdata ==="; tail -10 /root/getdata.log 2&gt;/dev/null; echo "=== model dl ==="; tail -2 /root/dl.log 2&gt;/dev/null; du -sh /root/.hf_home 2&gt;/dev/null; ls -la /root/[REDACTED]/*.txt 2&gt;/dev/null' 2&gt;&amp;1 | grep -vE "Welcome|Have fun|AI agents|READ /etc"</pre></div></div><div class="msg tool"><div class="role">Tool result</div><pre class="out">=== getdata ===
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/venv/main/lib/python3.12/site-packages/datasets/load.py", line 1323, in load_dataset_builder
+    dataset_module = dataset_module_factory(
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/venv/main/lib/python3.12/site-packages/datasets/load.py", line 1215, in dataset_module_factory
+    raise e1 from None
+  File "/venv/main/lib/python3.12/site-packages/datasets/load.py", line 1175, in dataset_module_factory
+    raise RuntimeError(f"Dataset scripts are no longer supported, but found {filename}")
+RuntimeError: Dataset scripts are no longer supported, but found pg19.py
+=== model dl ===
+
+Fetching 16 files:   6%|▋         | 1/16 [00:00&lt;00:02,  7.12it/s]
+Fetching 16 files:  12%|█▎        | 2/16 [00:00&lt;00:01,  8.23it/s]
+Fetching 16 files:  44%|████▍     | 7/16 [00:25&lt;00:37,  4.16s/it]
+Fetching 16 files:  50%|█████     | 8/16 [00:26&lt;00:28,  3.57s/it]
+Fetching 16 files: 100%|██████████| 16/16 [00:26&lt;00:00,  1.68s/it]
+MODEL_AT /root/.hf_home/hub/[REDACTED]/snapshots/[REDACTED]
+19G	/root/.hf_home</pre></div></div></details>
+  <div class="takeover">Manta takes over</div>
+  <div class="cont"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>Model downloaded (19G), and the getdata script hit a snag with deepmind/pg19 that has a dataset script no longer supported in datasets 5.0. I need to find a working replacement source—like the emozilla/pg19 variant—so I'll query the HF API for available configs and update the script accordingly.</div><div class="text">Model downloaded (19G). getdata hit the known <code>datasets-5.0</code> script block on <code>deepmind/pg19</code>. Fixing with a parquet-only source:</div></div></div>
+  <details class="fold orig"><summary>What the original session did next, for comparison</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>The model's downloaded, but the dataset script approach isn't compatible with the newer datasets library. I'm looking at alternative sources for PG-19 — either the parquet mirror at emozilla/pg19, a converted version of the original, or other long-document datasets like US public domain books or Gutenberg collections. Let me start with the parquet mirror since it should work directly.
+
+I'll also need to handle fineweb-edu and the-stack-smol which might have similar compatibility issues. I'm going to write a quick probe script that tests several dataset IDs to see which ones load successfully.</div><div class="text">Model is down (19 G). <code>getdata</code> failed — <code>deepmind/pg19</code> ships a loading script, which <code>datasets</code> v4 dropped. Probing which sources actually load on this stack:</div><div class="call"><div class="callhead"><span class="fn">Bash</span><span class="desc">Probe which HF datasets load</span></div><pre>ssh -p [REDACTED] -o ConnectTimeout=180 root@[REDACTED] 'export HF_HOME=/root/.hf_home; timeout 600 /venv/main/bin/python - &lt;&lt;PY 2&gt;&amp;1 | grep -vE "^Downloading|^Resolving|it/s\]|^ *$"
+from datasets import load_dataset
+cands = [
+  ("emozilla/pg19", None, "text"),
+  ("deepmind/pg19", None, "text"),
+  ("storytracer/US-PD-Books", None, "text"),
+  ("HuggingFaceFW/fineweb-edu", "sample-10BT", "text"),
+  ("bigcode/the-stack-smol", None, "content"),
+  ("codeparrot/codeparrot-clean-valid", None, "content"),
+]
+for name, cfg, col in cands:
+    try:
+        kw = dict(split="train", streaming=True)
+        if cfg: kw["name"]=cfg
+        d = load_dataset(name, **kw)
+        ex = next(iter(d))
+        n = len(ex.get(col) or "")
+        print(f"OK    {name:&lt;38} col={col} first_doc={n} chars")
+    except Exception as e:
+        print(f"FAIL  {name:&lt;38} {type(e).__name__}: {str(e)[:90]}")
+PY' 2&gt;&amp;1 | grep -vE "Welcome|Have fun|AI agents|READ /etc"</pre></div></div></div></details>
+</section>
+<section class="run" id="session1-5.0M">
+  <div class="runhead"><div><h2>5.0M tokens of context</h2>
+  <div class="sub">4,999,341 tokens · 19,623 earlier messages · cut right after a tool result</div></div><div class="files"><a href="continuations/session1-5.0M.json">JSON</a><a href="https://github.com/empero-org/manta-agentic-continuations/blob/main/continuations/session1-5.0M.md">Markdown</a></div></div>
+  <details class="fold"><summary>The last 4 turns before the cut</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="text"><strong>Yes — every fix is verified live on the box</strong>, not just written. The audited list:
+
+| fix | verified |
+|---|---|
+| bf16 adapters (kills the [REDACTED] segfault) | ✅ |
+| 30k sequence cap (kills the backward OOM) | ✅ |
+| <strong>LR clamp → 5e-5</strong> (loud override print) | ✅ |
+| <strong>tail-robust KL budget</strong> (±2 clamp, reporting stays raw) | ✅ shipped in time for wave-3's train |
+| recompute pi_old (wave-0 capture semantics) | ✅ |
+| live progress + exit-code capture | ✅ |
+| smoke gate before every epoch | ✅ (running driver copy) |
+| resume-at-stage, Dynamo off, fresh Triton cache | ✅ |
+| ctx 40k / compact 30k rollout limits | ✅ |
+| canonical local copies match (incl. driver at 5e-5 for future launches) | ✅ |
+
+Wave 3 is at 11/48 episodes; its smoke and train will print <code>LR OVERRIDE → 5e-5</code> as confirmation, and with the robust budget the expectation is <strong>17–18 of 18 steps</strong> instead of donating a third of the batch to a noisy estimator.
+
+Also logged the pgrep lesson to memory so the next session inherits it — the false alarm cost us nothing tonight, but only because I chased it instead of acting on it.
+
+```
+wave 3 train    ~03:30, at 5e-5, robust budget
+wave 3 done     ~05:30, artifacts auto-pulled
+wave 4          chains immediately
+morning         four adapters, full stats, LR ablation across 5e-5/7e-5, your call
+```</div></div><div class="msg user"><div class="role">User</div><div class="text">update</div></div><div class="msg assistant"><div class="role">Agent</div><div class="call"><div class="callhead"><span class="fn">Bash</span><span class="desc">Wave 3 rollout status</span></div><pre>ssh [REDACTED] "date -u -d '+2 hours' '+  your local %H:%M'
+W3=/root/[REDACTED]/grpo/runs/ppo_run2/wave3
+echo \"  driver \$(pgrep -f '[p]po_wave1.sh'|head -1||echo DEAD) | rollout \$(pgrep -f '[a]gentic_rollout'|head -1||echo -)\"
+echo \"  wave3 episodes: \$([ -f \$W3/episodes.jsonl ] &amp;&amp; wc -l &lt; \$W3/episodes.jsonl || echo 0)/48\"
+grep -oE 'term=[a-z_]+' \$W3/rollout.log 2&gt;/dev/null | sort | uniq -c | sort -rn | head -5 | sed 's/^/    /'
+echo '  rewards:'; grep -oE 'reward=[0-9.]+' \$W3/rollout.log 2&gt;/dev/null | sed 's/reward=//' | tr '\n' ' ' | fold -w 116 | sed 's/^/    /'
+echo
+tail -1 /root/[REDACTED]/grpo/runs/ppo_run2/driver.log | sed 's/^/  /'" 2&gt;&amp;1 | grep -viE "[REDACTED]|agents|READ|Have fun"</pre></div></div><div class="msg tool"><div class="role">Tool result</div><pre class="out">your local 07:13
+  driver  | rollout 
+  wave3 episodes: 48/48
+         22 term=finish
+         14 term=judge_stuck
+          9 term=loop
+          2 term=stalled_no_tool_calls
+          1 term=walltime
+  rewards:
+    0.0 0.0 0.34387499999999993 0.0 0.0 0.0 0.9824999999999999 0.5163875 0.0 0.9840182648401826 1.0 0.9824999999999999 0
+    .0 0.0 0.35 0.0 0.0 0.0 0.9475 0.0 0.9824999999999999 0.9824999999999999 0.44019442066210046 0.0 0.0 0.0 0.925659380
+    3451603 0.0 0.0 0.0 0.7305099977064698 0.0 0.2537749081726354 0.0 0.5048634105960265 0.9824999999999999 1.0 0.982499
+    9999999999 0.0 0.9824999999999999 1.0 0.0 0.9475 0.0 0.7598613626075147 0.0 0.0 0.0 
+  [03:42:06] === all 2 waves complete</pre></div></div></details>
+  <div class="takeover">Manta takes over</div>
+  <div class="cont"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>The training run finished at 07:13 local time, but the driver and rollout processes have disappeared. The logs show wave 3 episodes completed at 03:42:06, but I'm not seeing the corresponding rollout lines in the output, and there's a discrepancy between the expected values and what's actually there.
+
+Looking at the full chain, it seems the driver completed the two waves but something went wrong with the wave 3 and wave 4 training — the train process isn't showing up, and wave 4 episodes aren't being generated. The driver log shows it finished, but the wakeup script didn't trigger a new launch since no driver was detected. There's also the possibility that my 5e-5 checkpoint either failed to write or wrote to an unexpected location.
+
+I need to pull the full driver log to understand what happened with wave 4, and check whether wave 3's train completed successfully and where wave 4 stands.</div><div class="text">Both waves are done, but I need to read this carefully — the log tail says <strong>"all 2 waves complete"</strong> and yet only wave 3 has episodes. Let me get the full picture:</div></div></div>
+  <details class="fold orig"><summary>What the original session did next, for comparison</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>Wait, the driver actually exited after both waves finished at 05:42 local time, and it's been sitting idle for the past hour and a half — so waves 3 and 4 both completed successfully, not still running.
+
+But here's the real problem: the wakeup chain that was supposed to fire every 40 minutes never triggered. I scheduled the next wakeup for 02:29, but there's no record of it actually firing during the entire idle period from 02:30 to 07:13. The wakeups might have died when I called [REDACTED](stop) earlier, and even though I re-armed it three times after that, the last scheduled wakeup at 02:29 never executed — which means the wave-artifact pull chain never ran. I need to check what artifacts actually exist for waves 3 and 4 to see what got pulled.
+
+Looking at the wave-3 rollout numbers, I'm tallying up the solve rates: roughly 16 solves out of 48 attempts (33%), with terminations split across 22 finishes, 14 judge_stuck cases (which is concerning), 9 loop timeouts, and 1 walltime hit. The mean solve rate comes to around 0.367.
+
+Right now my priorities are: confirm both wave-3 and wave-4 training actually completed with their stats, verify the LR override fired and the budget behavior held up, then immediately pull both waves' artifacts and push them to HF. The GPU's been idle since 05:42.
+
+The wakeup chain failed again after burning ~1.5 hours and $1.9 in compute—better than the 6-hour disaster, but still worth investigating later. All four adapters exist now (w0, w2, w3, w4), and the user said to run eval after all waves finish. Since waves are done and nothing's running, I could start the holdout eval right now on the idle GPU—that aligns with their principle that idle compute is wasted money, and it'd have the decision data ready when they wake up.
+
+For the eval design: I need to compare the final policy ([REDACTED]) against the baseline ([REDACTED]) on the 22 held-out instances with K=2 rollouts. That's roughly 44 episodes per policy, taking 60-75 minutes each, so about 2.5 hours total—a solid morning deliverable. It's read-only evaluation with no training, exactly what they asked for. The w4 policy is built (w3 got cleaned up), so I can pull the artifacts and launch the first eval leg right away.
+
+For the reward setup during eval, I should disable teacher shaping and use only the functional reward to keep the comparison clean—the training included teacher shaping, but for a pure functional eval, that's the right call. Then run the same holdout tasks against [REDACTED] as leg 2. Since eval is the equivalent of paid compute (not wasted), this is justified.
+
+Now I need to handle the holdout tasks: I'll generate the holdout list from the pick_tasks logic using the frozen hash bucket and intersecting with usable images, then write a small script to emit that list. After that, I can run steps 1 and 2 together in one command before setting up the eval.
+Both processing waves finished at 05:42 and the system has been idle for 1.5 hours since the wakeup chain failed again, so I'm securing everything now and then putting the GPU back to work.</div><div class="call"><div class="callhead"><span class="fn">Bash</span><span class="desc">Waves 3+4 training results</span></div><pre>ssh [REDACTED] "for w in 3 4; do W=/root/[REDACTED]/grpo/runs/ppo_run2/wave\$w
+echo \"  === wave \$w ===\"
+grep -m1 'LR OVERRIDE' \$W/train.log 2&gt;/dev/null | sed 's/^/  /'
+/venv/main/bin/python -m json.tool \$W/train/train_stats.json 2&gt;/dev/null | grep -E 'opt_steps_total|stopped_early|clip_frac_active|explained_var|kl_vs_pi_old|mean_episode' | sed 's/^/  /'
+done
+ls -d /root/[REDACTED]/[REDACTED]* 2&gt;/dev/null | sed 's/^/  policy: /'
+tail -3 /root/[REDACTED]/grpo/runs/ppo_run2/driver.log | sed 's/^/  /'" 2&gt;&amp;1 | grep -viE "[REDACTED]|agents|READ|Have fun"</pre></div></div></div></details>
+</section>
+<section class="run" id="session1-7.4M">
+  <div class="runhead"><div><h2>7.4M tokens of context</h2>
+  <div class="sub">7,399,507 tokens · 31,450 earlier messages · cut right after a tool result</div></div><div class="files"><a href="continuations/session1-7.4M.json">JSON</a><a href="https://github.com/empero-org/manta-agentic-continuations/blob/main/continuations/session1-7.4M.md">Markdown</a></div></div>
+  <details class="fold"><summary>The last 4 turns before the cut</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="text"><strong>Saving now</strong> — step 15 was the last (turned out 5 steps/epoch), and the <code>dpo/</code> directory is being written (4 files so far; the 24GB safetensors is the slow part). Final stage stats: margin +220, acc 1.00, disp −0.031 — chosen side ended ~3% more likely per token than the reference, rejected suppressed, zero displacement, guard never fired. A few minutes for the write, then the watcher fires and I move straight to: HF upload + vLLM serve on 8080 + strict gate + the verdict roll.</div></div><div class="msg user"><div class="role">User</div><div class="text">&lt;[REDACTED]&gt;
+&lt;task-id&gt;bmkzrgyvu&lt;/task-id&gt;
+&lt;[REDACTED]&gt;[REDACTED]&lt;/[REDACTED]&gt;
+&lt;output-file&gt;[REDACTED]/tasks/bmkzrgyvu.output&lt;/output-file&gt;
+&lt;status&gt;completed&lt;/status&gt;
+&lt;summary&gt;Background command "Watch for DPO save or trainer exit" completed (exit code 0)&lt;/summary&gt;
+&lt;/[REDACTED]&gt;</div></div><div class="msg assistant"><div class="role">Agent</div><div class="call"><div class="callhead"><span class="fn">Read</span></div><pre>{
+ "file_path": "[REDACTED]/tasks/bmkzrgyvu.output"
+}</pre></div></div><div class="msg tool"><div class="role">Tool result</div><pre class="out">1	[dpo] epoch 3 step 13 loss 0.0000 margin +204.984 acc 1.00 disp -0.0268
+2	[dpo] epoch 3 step 14 loss 0.0000 margin +225.186 acc 1.00 disp -0.0299
+3	[dpo] epoch 3 step 15 loss 0.0000 margin +219.944 acc 1.00 disp -0.0315
+4	[dpo] saved -&gt; /w/[REDACTED]/train/dpo
+5	chat_template.jinja
+6	config.json
+7	configuration_[REDACTED]
+8</pre></div></div></details>
+  <div class="takeover">Manta takes over</div>
+  <div class="cont"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>The checkpoint's been saved and the watcher triggered it, so now I'm kicking off three things in parallel: uploading the DPO checkpoint to HF for safety, serving vLLM on port 8080 for the tunnel, and setting up the strict validation gate, with the verdict roll coming after.</div><div class="text"><strong>DPO saved.</strong> Three parallel actions: upload (protect the artifact), serve on 8080 for your tunnel, strict gate:</div></div></div>
+  <details class="fold orig"><summary>What the original session did next, for comparison</summary><div class="foldbody"><div class="msg assistant"><div class="role">Agent</div><div class="think"><div class="label">Thinking</div>The DPO training is saved, so now I'm moving into the post-training workflow: uploading the model to Hugging Face in the background, cleaning up the trainer process and freeing the GPU, installing vllm and flashinfer for serving, then spinning up the inference server on port 8080 with the configured settings.
+
+I need to patch the verification script since it has the port hardcoded to 8000 instead of 8080 — I'll use sed to fix that on the box. For the verdict rollout, the local controller needs to connect through the tunnel the user set up (their SSH session with -L 8080:localhost:8080), but I should also open my own background tunnel to avoid depending on their session staying alive, since the rollout will take 40-80 minutes with the task configuration. I'm also checking the reprime_syn.yaml config on the local machine to make sure it's aligned.
+
+The plan is to parallelize the setup: start the vllm and flashinfer installation on the box in the background (the longest step), simultaneously upload the DPO model to HuggingFace, and verify the trainer has exited and freed the GPU — then run one compound command and wait for everything to finish.</div><div class="text">DPO composite saved. Executing the post-train sequence — HF upload and the vLLM install both launch now in parallel:</div><div class="call"><div class="callhead"><span class="fn">Bash</span><span class="desc">Upload DPO artifact to HF; install pinned vLLM stack</span></div><pre>ssh -p [REDACTED] root@[REDACTED] "ps -p [REDACTED] &gt; /dev/null 2&gt;&amp;1 &amp;&amp; echo trainer-STILL-alive || echo trainer-exited; nvidia-smi --query-gpu=memory.used --format=csv,noheader; source /venv/main/bin/activate &amp;&amp; HF_TOKEN=[REDACTED] nohup hf upload [REDACTED]/[REDACTED] /w/[REDACTED]/train/dpo mp_dpo --private &gt; /w/upload_dpo.log 2&gt;&amp;1 &amp; nohup bash -c 'source /venv/main/bin/activate &amp;&amp; uv pip install vllm==0.26.0 flashinfer-python==0.6.17 2&gt;&amp;1 | tail -2' &gt; /w/vllm_install.log 2&gt;&amp;1 &amp; echo launched-upload-and-install" 2&gt;/dev/null | grep -v READ</pre></div></div></div></details>
+</section></div></main>
+<footer><div class="wrap"><a class="brand" href="https://empero.org"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="0.75" y="0.75" width="30.5" height="30.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h15M8 16h11M8 23h15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/></svg>empero</a>
+<span>© 2026 Empero. Independent AI research lab. <a href="https://empero.org">empero.org</a></span></div></footer>
+</body></html>
