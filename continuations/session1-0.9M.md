@@ -2,6 +2,8 @@
 
 899,848 tokens, 3,337 earlier messages of one real coding-agent session. The session is cut right after a tool result, and Manta writes the next assistant turn on its own. One sample, unedited. The full text of every turn is in [`session1-0.9M.json`](session1-0.9M.json).
 
+The session was logged from a current frontier agent. By this cut, the frontier agent had been compacted once; Manta has all 899,848 tokens in context.
+
 ## The last 4 turns before the cut
 
 *Thinking*
@@ -35,7 +37,9 @@ gpu: 10 %, 908 MiB
 
 `identity3` is **done** (val 1.32) — GPU's idle, so the re-test should be finished too. Reading it:
 
-## What the original session did next
+> **What happened next.** The two read the same GPU check (908 MiB in use) differently: the frontier agent says the re-test is "running on the GPU right now"; Manta reads the GPU as idle and the re-test as finished. It was finished: its results came back seconds later.
+
+## What the frontier agent wrote next
 
 *Thinking*
 

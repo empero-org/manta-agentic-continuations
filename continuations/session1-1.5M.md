@@ -2,6 +2,8 @@
 
 1,499,692 tokens, 5,550 earlier messages of one real coding-agent session. The session is cut right after a tool result, and Manta writes the next assistant turn on its own. One sample, unedited. The full text of every turn is in [`session1-1.5M.json`](session1-1.5M.json).
 
+The session was logged from a current frontier agent. By this cut, the frontier agent had been compacted 2×; Manta has all 1,499,692 tokens in context.
+
 ## The last 4 turns before the cut
 
 *Thinking*
@@ -60,7 +62,7 @@ Commands:
 
 Let me see the remaining flags (model-reasoning-effort and sandbox):
 
-## What the original session did next
+## What the frontier agent wrote next
 
 *Thinking*
 

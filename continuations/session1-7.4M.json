@@ -59,5 +59,9 @@
     }
    }
   ]
+ },
+ "original_agent": {
+  "kind": "a current frontier agent",
+  "context_compactions_before_cut": 13
  }
 }

@@ -2,6 +2,8 @@
 
 3,499,544 tokens, 12,919 earlier messages of one real coding-agent session. The session is cut right after a tool result, and Manta writes the next assistant turn on its own. One sample, unedited. The full text of every turn is in [`session1-3.5M.json`](session1-3.5M.json).
 
+The session was logged from a current frontier agent. By this cut, the frontier agent had been compacted 6×; Manta has all 3,499,544 tokens in context.
+
 ## The last 4 turns before the cut
 
 **Tool call: `Bash`** (Check data/model progress)
@@ -55,7 +57,7 @@ MODEL_AT /root/.hf_home/hub/[REDACTED]/snapshots/[REDACTED]
 
 Model downloaded (19G). getdata hit the known `datasets-5.0` script block on `deepmind/pg19`. Fixing with a parquet-only source:
 
-## What the original session did next
+## What the frontier agent wrote next
 
 *Thinking*
 

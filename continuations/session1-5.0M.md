@@ -2,6 +2,8 @@
 
 4,999,341 tokens, 19,623 earlier messages of one real coding-agent session. The session is cut right after a tool result, and Manta writes the next assistant turn on its own. One sample, unedited. The full text of every turn is in [`session1-5.0M.json`](session1-5.0M.json).
 
+The session was logged from a current frontier agent. By this cut, the frontier agent had been compacted 8×; Manta has all 4,999,341 tokens in context.
+
 ## The last 4 turns before the cut
 
 **Yes — every fix is verified live on the box**, not just written. The audited list:
@@ -76,7 +78,7 @@ your local 07:13
 
 Both waves are done, but I need to read this carefully — the log tail says **"all 2 waves complete"** and yet only wave 3 has episodes. Let me get the full picture:
 
-## What the original session did next
+## What the frontier agent wrote next
 
 *Thinking*
 

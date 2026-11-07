@@ -2,6 +2,8 @@
 
 7,399,507 tokens, 31,450 earlier messages of one real coding-agent session. The session is cut right after a tool result, and Manta writes the next assistant turn on its own. One sample, unedited. The full text of every turn is in [`session1-7.4M.json`](session1-7.4M.json).
 
+The session was logged from a current frontier agent. By this cut, the frontier agent had been compacted 13×; Manta has all 7,399,507 tokens in context.
+
 ## The last 4 turns before the cut
 
 **Saving now** — step 15 was the last (turned out 5 steps/epoch), and the `dpo/` directory is being written (4 files so far; the 24GB safetensors is the slow part). Final stage stats: margin +220, acc 1.00, disp −0.031 — chosen side ended ~3% more likely per token than the reference, rejected suppressed, zero displacement, guard never fired. A few minutes for the write, then the watcher fires and I move straight to: HF upload + vLLM serve on 8080 + strict gate + the verdict roll.
@@ -43,7 +45,7 @@
 
 **DPO saved.** Three parallel actions: upload (protect the artifact), serve on 8080 for your tunnel, strict gate:
 
-## What the original session did next
+## What the frontier agent wrote next
 
 *Thinking*
 
