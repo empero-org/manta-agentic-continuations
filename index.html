@@ -39,6 +39,7 @@ a{color:inherit}
 .ladder a b{display:block;font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.1}
 .ladder a span{color:var(--on-night-3);font-size:12.5px}
 .ladder a:hover{border-color:var(--violet-bright)}
+.jump{margin:22px 0 0!important}.jump a{color:var(--violet-bright);text-decoration:none;font-weight:500;font-size:15px}.jump a:hover{text-decoration:underline}
 main{padding:clamp(40px,6vw,72px) 0}
 section.run{background:var(--card);border:1px solid var(--line);border-radius:3px;margin:0 0 36px}
 .runhead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;padding:24px 24px 18px;border-bottom:1px solid var(--line)}
@@ -71,6 +72,42 @@ pre.out{background:var(--paper-2);border-radius:3px;padding:12px 14px;max-height
 .takeover::after{content:"";flex:1;height:1px;background:var(--accent);opacity:.5}
 .cont{padding:16px 24px 8px}
 .runhead .sub.cmp{color:var(--accent);margin-top:2px}
+.hl{margin:0 0 56px}
+.hl h2{font-family:var(--serif);font-weight:350;font-size:clamp(30px,4.4vw,44px);line-height:1.05;letter-spacing:-.015em;margin:0 0 12px}
+.hl .lede{color:var(--ink-2);max-width:680px;margin:0 0 26px}
+.ctx{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:8px 20px;margin:0 0 22px}
+.cx{display:grid;grid-template-columns:52px minmax(0,1fr) minmax(0,1.5fr);gap:16px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+.cx:first-child{border-top:0}
+.cxhead{color:var(--ink-3);font-size:12.5px;font-weight:500;letter-spacing:.02em}
+.cxl{font-family:var(--mono);font-size:13px}
+.cxf{color:var(--ink-2);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.dots{display:inline-flex;flex-wrap:wrap;gap:3px;max-width:132px}
+.dots i{width:6px;height:6px;background:var(--ink-3);display:block}
+.cxm{display:flex;align-items:center;gap:10px;min-width:0}
+.cxm .track{flex:1;min-width:0}
+.cxm .bar{display:block;height:8px;background:var(--accent);min-width:6px}
+.cxt{font-family:var(--mono);font-size:12.5px;color:var(--accent);white-space:nowrap;flex:none;width:13.5ch;text-align:right}
+.hlg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.hlc{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:18px 20px 20px;display:flex;flex-direction:column}
+.hlh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 0 12px}
+.hlk{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
+.hlk::before{content:"";width:8px;height:8px;background:var(--accent)}
+.hlh a{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);text-decoration:none}
+.hlh a:hover{color:var(--accent)}
+.hlc pre.tool{background:var(--paper-2);border-radius:3px;padding:8px 12px;margin:0 0 12px;font-size:12.5px}
+.who{font-size:12px;font-weight:500;letter-spacing:.02em;margin:4px 0 6px}
+.who.f{color:var(--ink-3)}
+.who.m{color:var(--accent);margin-top:12px}
+.q{margin:0;padding:2px 0 2px 12px;font-size:15px;line-height:1.55}
+.q.f{border-left:2px solid var(--line-2);color:var(--ink-2)}
+.q.m{border-left:2px solid var(--accent);color:var(--ink)}
+.q.quiet{font-style:italic}
+.q code{font:12.5px var(--mono);background:var(--paper-2);border-radius:3px;padding:1px 5px;font-style:normal}
+mark{background:none;color:inherit;font-weight:600}
+.q.m mark,.hlc pre.tool mark{color:var(--accent)}
+.out{margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:14.5px;font-weight:500;color:var(--ink)}
+@media (max-width:900px){.hlg{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){.cx{grid-template-columns:44px minmax(0,1fr);gap:6px 12px}.cxm{grid-column:2}.cxhead .cxm{display:none}.ctx{padding:6px 14px}}
 .note{margin:0 24px 18px;padding:12px 16px;border:1px solid var(--accent);border-radius:3px;font-size:15px;color:var(--ink-2)}
 .note b{color:var(--ink);font-weight:600}
 .cont .msg>.role{display:none}
@@ -91,8 +128,39 @@ details.fold summary,.takeover{padding-left:16px;padding-right:16px}}
 <p>Close to 1M tokens the frontier agent reached its limits: its context was compacted into a summary at 786,556 tokens, and 13 times by the last cut. Manta reads the whole session at every cut, with room to look back and ahead.</p>
 <p>One sample per cut, unedited. IPs, keys, IDs, paths and internal names read [REDACTED]; nothing else is changed.</p>
 <ul class="ladder"><li><a href="#session1-0.9M"><b>0.9M</b><span>3,337 messages</span></a></li><li><a href="#session1-1.5M"><b>1.5M</b><span>5,550 messages</span></a></li><li><a href="#session1-3.5M"><b>3.5M</b><span>12,919 messages</span></a></li><li><a href="#session1-5.0M"><b>5.0M</b><span>19,623 messages</span></a></li><li><a href="#session1-7.4M"><b>7.4M</b><span>31,450 messages</span></a></li></ul>
+<p class="jump"><a href="#frontier">Manta next to the frontier agent ↓</a></p>
 </div></header>
 <main><div class="wrap">
+<section class="hl" id="frontier">
+  <h2>Manta next to the frontier agent</h2>
+  <p class="lede">The frontier agent ran this session live. Close to 1M tokens it reached its limits and from then on worked from summaries. Manta reads every cut whole, with room to look back and ahead.</p>
+  <div class="ctx"><div class="cx cxhead"><span class="cxl">Cut</span><span class="cxf">The frontier agent</span><span class="cxm">Manta, tokens in context</span></div><div class="cx"><span class="cxl">0.9M</span><span class="cxf"><span class="dots"><i></i></span>compacted 1×</span><span class="cxm"><span class="track"><span class="bar" style="width:12.2%"></span></span><span class="cxt">all 899,848</span></span></div><div class="cx"><span class="cxl">1.5M</span><span class="cxf"><span class="dots"><i></i><i></i></span>compacted 2×</span><span class="cxm"><span class="track"><span class="bar" style="width:20.3%"></span></span><span class="cxt">all 1,499,692</span></span></div><div class="cx"><span class="cxl">3.5M</span><span class="cxf"><span class="dots"><i></i><i></i><i></i><i></i><i></i><i></i></span>compacted 6×</span><span class="cxm"><span class="track"><span class="bar" style="width:47.3%"></span></span><span class="cxt">all 3,499,544</span></span></div><div class="cx"><span class="cxl">5.0M</span><span class="cxf"><span class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>compacted 8×</span><span class="cxm"><span class="track"><span class="bar" style="width:67.6%"></span></span><span class="cxt">all 4,999,341</span></span></div><div class="cx"><span class="cxl">7.4M</span><span class="cxf"><span class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>compacted 13×</span><span class="cxm"><span class="track"><span class="bar" style="width:100.0%"></span></span><span class="cxt">all 7,399,507</span></span></div></div>
+  <div class="hlg">
+<article class="hlc">
+  <div class="hlh"><span class="hlk">Better grounded</span><a href="#session1-0.9M">0.9M tokens</a></div>
+  <pre class="tool">gpu: 10 %, <mark>908 MiB</mark></pre>
+  <div class="who f">The frontier agent · compacted 1×</div><blockquote class="q f">The re-test (task-following + identity) is <mark>running on the GPU right now</mark> (that's the 16 procs).</blockquote>
+  <div class="who m">Manta · all 899,848 tokens</div>
+  <blockquote class="q m">identity3 is done (val 1.32) — <mark>GPU's idle, so the re-test should be finished too</mark>.</blockquote>
+  <p class="out">It was finished: the results came back seconds later.</p>
+</article>
+<article class="hlc">
+  <div class="hlh"><span class="hlk">Clearer</span><a href="#session1-5.0M">5.0M tokens</a></div>
+  
+  <div class="who f">The frontier agent · compacted 8×</div><p class="q f quiet">No message. It runs its next command: <code>Bash</code> “Waves 3+4 training results”</p>
+  <div class="who m">Manta · all 4,999,341 tokens</div>
+  <blockquote class="q m">Both waves are done, but I need to read this carefully — the log tail says <mark>"all 2 waves complete" and yet only wave 3 has episodes</mark>. Let me get the full picture:</blockquote>
+  <p class="out">Manta says what doesn't add up before it checks.</p>
+</article>
+<article class="hlc">
+  <div class="hlh"><span class="hlk">Same next step</span><a href="#session1-7.4M">7.4M tokens</a></div>
+  
+  <div class="who f">The frontier agent · compacted 13×</div><blockquote class="q f">DPO composite saved. Executing the post-train sequence — HF upload and the vLLM install both <mark>launch now in parallel</mark>:</blockquote>
+  <div class="who m">Manta · all 7,399,507 tokens</div>
+  <blockquote class="q m">DPO saved. <mark>Three parallel actions</mark>: upload (protect the artifact), serve on 8080 for your tunnel, strict gate:</blockquote>
+  
+</article></div>
+</section>
 <section class="run" id="session1-0.9M">
   <div class="runhead"><div><h2>0.9M tokens of context</h2>
   <div class="sub">899,848 tokens · 3,337 earlier messages · cut right after a tool result</div>
